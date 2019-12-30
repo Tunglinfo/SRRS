@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Tensor Flow Object Detection from getUserMedia</title>
+    <script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>
+    <style>
+        video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: -1;
+            /* Mirror the local video */
+            transform: scale(-1, 1);            /*For Firefox (& IE) */
+            -webkit-transform: scale(-1, 1);     /*for Chrome & Opera (& Safari) */
+        }
+        canvas{
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index:1
+        }
+    </style>
+</head>
+<body>
+<video id="myVideo" autoplay></video>
+<script src="app/static/local.js"></script>
+<script>
+    console.log("starting");
+
+        //var socket = io.connect('http://127.0.0.1:5000');
+        //var a = socket.emit('start', {data: 'time to start'});
+     window.addEventListener('DOMContentLoaded', () => {
+        let d = document.getElementById('log');
+        let socket = io.connect('http://127.0.0.1:5000');
+
+        console.log("starting");
+        socket.emit('start', 'test');
+
+    });
+
+</script>
+<script id="objDetect" src="app/static/objDetect_socket.js" data-source="myVideo" data-mirror="true" data-uploadWidth="1280" data-scoreThreshold="0.40"></script>
+</body>
+</html>

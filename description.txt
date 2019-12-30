@@ -1,0 +1,18 @@
++ ./app.py 这个文件中用于启动一个开发服务器。它从你的包获得应用的副本并运行它。这不会在生产环境中用到，不过依然在许多Flask开发的过程中看到。
+
++ ./config.py 这个文件包含了你的应用需要的大多数配置变量
+
++ ./instance/config.py 这个文件包含不应该出现在版本控制的配置变量。其中有类似调用密钥和数据库URI连接密码。同样也包括了你的应用中特有的不能放到阳光下的东西。比如，你可能在config.py中设定DEBUG = False，但在你自己的开发机上的instance/config.py设置DEBUG = True。因为这个文件可以在config.py之后被载入，它将覆盖掉DEBUG = False，并设置DEBUG = True。
+
+
++ ./app/   这个包里包括了你的应用。
+
++ ./app/__init__.py      这个文件初始化了你的应用并把所有其它的组件组合在一起。
+
++ ./app/views.py         这里定义了路由。它也许需要作为一个包（yourapp/views/），由一些包含了紧密相联的路由的模块组成。
+
++ ./app/models.py        在这里定义了应用的模型。你可能需要像对待views.py一样把它分割成许多模块。
+
++ ./app/static/          这个文件包括了公共CSS， Javascript, images和其他你想通过你的应用展示出去的静态文件。
+
++ 

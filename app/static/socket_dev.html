@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Smart Meeting Room Register FR from getUserMedia</title>
+    <script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.5/socket.io.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.js"></script>
+    <style>
+        video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: -1;
+            /* Mirror the local video */
+            transform: scale(-1, 1);            /*For Firefox (& IE) */
+            -webkit-transform: scale(-1, 1);     /*for Chrome & Opera (& Safari) */
+        }
+        canvas{
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index:1
+        }
+    </style>
+</head>
+<body>
+<canvas id="myChart"></canvas>
+<video id="myVideo" autoplay></video>
+<script src="/static/local.js"></script>
+<script id="objDetect" src="/static/objDetect.js" data-source="myVideo" data-mirror="true" data-uploadWidth="1280" data-scoreThreshold="0.40"></script>
+<script>
+    window.addEventListener('DOMContentLoaded', () => {
+        let d = document.getElementById('log');
+        let socket = io({transports: ['websocket']}).connect('http://' + document.domain + ':' + location.port);
+        let ctx = document.getElementById("myChart");
+
+
+        console.log("starting");
+        socket.emit('start', {data: 'time to start'});
+        socket.emit('command', {cam:''})  #Base64 call /FD, /matching畫在圖上的結果
+
+
+
+
+        socket.on('imu', (msg) => {
+            console.log(JSON.stringify(msg.data));
+            if (msg.data.compass) {
+                imuChart.data.datasets[3].data = [0, 0, 0, msg.data.compass];
+            }
+            if (msg.data.orientation) {
+                let pitch = msg.data.orientation.pitch;
+                let roll = msg.data.orientation.roll;
+                let yaw = msg.data.orientation.yaw;
+                imuChart.data.datasets[0].data = [pitch, roll, yaw, 0];
+            }
+         }
+    });
+</script>
+</body>
+</html>
