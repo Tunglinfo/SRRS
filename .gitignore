@@ -2,3 +2,4 @@
 venv/
 *.pyc
 deploy_models/
+*.log
